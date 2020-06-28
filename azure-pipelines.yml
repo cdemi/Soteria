@@ -10,7 +10,7 @@ pr:
 - master
 
 pool:
-  vmImage: 'windows-2019'
+  vmImage: 'ubuntu-latest'
 
 variables:
   buildConfiguration: 'Release'
