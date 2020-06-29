@@ -22,7 +22,6 @@ namespace Soteria.WebAPI
         {
             services.AddControllers();
             services.AddDbContext<SoteriaContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SoteriaContext"), builder => builder.MigrationsAssembly("Soteria.Data.SqlServer")));
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
