@@ -7,11 +7,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Soteria.WebAPI", "Soteria.W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Soteria.Data", "Soteria.Data\Soteria.Data.csproj", "{8C8FC6F1-F1C5-4746-8538-E1028869D495}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soteria.Data.SqlServer", "Soteria.Data.SqlServer\Soteria.Data.SqlServer.csproj", "{22557488-A6AB-47F3-91F9-E656F7B822FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Soteria.Data.SqlServer", "Soteria.Data.SqlServer\Soteria.Data.SqlServer.csproj", "{22557488-A6AB-47F3-91F9-E656F7B822FE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7FC13AEA-E342-4D1E-B4AA-0035BCEFDE12}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		azure-pipelines.yml = azure-pipelines.yml
+		LICENSE = LICENSE
+		README.md = README.md
 	EndProjectSection
 EndProject
 Global
