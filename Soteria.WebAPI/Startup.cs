@@ -7,6 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Soteria.Data;
 using MaxMind.GeoIP2;
+using Swashbuckle.AspNetCore.Filters;
+using System.Reflection;
+using Soteria.WebAPI.Models;
 
 namespace Soteria.WebAPI
 {
@@ -33,7 +36,9 @@ namespace Soteria.WebAPI
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Soteria API", Version = "v1" });
+                c.ExampleFilters();
             });
+            services.AddSwaggerExamplesFromAssemblies(Assembly.GetEntryAssembly());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

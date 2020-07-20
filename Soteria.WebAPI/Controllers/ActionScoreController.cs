@@ -1,6 +1,8 @@
 ﻿using MaxMind.GeoIP2;
 using Microsoft.AspNetCore.Mvc;
 using Soteria.WebAPI.Models;
+using Swashbuckle.AspNetCore.Filters;
+using System;
 using System.Threading.Tasks;
 
 namespace Soteria.WebAPI.Controllers
