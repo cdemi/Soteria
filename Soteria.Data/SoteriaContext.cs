@@ -9,5 +9,11 @@ namespace Soteria.Data
         }
 
         public DbSet<LoginHistory> LoginHistories { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<LoginHistory>()
+                .HasIndex(p => new { p.Username, p.DateTime });
+        }
     }
 }
