@@ -1,14 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MaxMind.GeoIP2;
+using Microsoft.AspNetCore.Mvc;
 using Soteria.WebAPI.Models;
+using System.Threading.Tasks;
 
 namespace Soteria.WebAPI.Controllers
 {
     public class ActionScoreController : Controller
     {
-        [HttpPost("/score")]
-        public IActionResult Score([FromBody]ActionRequest actionRequest)
+        private readonly WebServiceClient _maxMindClient;
+
+        public ActionScoreController(WebServiceClient maxMindClient)
         {
-            return Ok();
+            this._maxMindClient = maxMindClient;
+        }
+
+        [HttpPost("/score")]
+        public async Task<IActionResult> Score([FromBody]ActionRequest actionRequest)
+        {
+            var ipInsights = await _maxMindClient.InsightsAsync(actionRequest.IP);
+            return new OkObjectResult(ipInsights.City.Name);
         }
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Soteria.Data;
+using MaxMind.GeoIP2;
 
 namespace Soteria.WebAPI
 {
@@ -23,6 +24,11 @@ namespace Soteria.WebAPI
         {
             services.AddControllers();
             services.AddDbContext<SoteriaContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SoteriaContext"), builder => builder.MigrationsAssembly("Soteria.Data.SqlServer")));
+
+            // Configure to read configuration options from MaxMind section
+            services.Configure<WebServiceClientOptions>(Configuration.GetSection("MaxMind"));
+            // Configure dependency injection for WebServiceClient
+            services.AddHttpClient<WebServiceClient>();
 
             services.AddSwaggerGen(c =>
             {
