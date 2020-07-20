@@ -1,26 +1,30 @@
-﻿using MaxMind.GeoIP2;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Soteria.RiskScore;
 using Soteria.WebAPI.Models;
-using Swashbuckle.AspNetCore.Filters;
-using System;
 using System.Threading.Tasks;
 
 namespace Soteria.WebAPI.Controllers
 {
     public class ActionScoreController : Controller
     {
-        private readonly WebServiceClient _maxMindClient;
+        private readonly RiskCalculator riskScoreCalculator;
 
-        public ActionScoreController(WebServiceClient maxMindClient)
+        public ActionScoreController(RiskCalculator riskScoreCalculator)
         {
-            this._maxMindClient = maxMindClient;
+            this.riskScoreCalculator = riskScoreCalculator;
         }
 
         [HttpPost("/score")]
         public async Task<IActionResult> Score([FromBody]ActionRequest actionRequest)
         {
-            var ipInsights = await _maxMindClient.InsightsAsync(actionRequest.IP);
-            return new OkObjectResult(ipInsights.City.Name);
+            await riskScoreCalculator.Calculate(new RiskScore.Action
+            {
+                IP = actionRequest.IP,
+                Password = actionRequest.Password,
+                UserAgent = actionRequest.UserAgent,
+                Username = actionRequest.Username
+            });
+            return Ok();
         }
     }
 }

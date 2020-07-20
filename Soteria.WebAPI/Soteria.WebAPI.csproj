@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Soteria.Data.SqlServer\Soteria.Data.SqlServer.csproj" />
     <ProjectReference Include="..\Soteria.Data\Soteria.Data.csproj" />
+    <ProjectReference Include="..\Soteria.RiskScore\Soteria.RiskScore.csproj" />
   </ItemGroup>
 
 
