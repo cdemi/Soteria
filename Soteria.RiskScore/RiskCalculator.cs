@@ -1,6 +1,7 @@
 ﻿using MaxMind.GeoIP2;
 using Newtonsoft.Json;
 using Soteria.Data;
+using Soteria.HaveIBeenPwned;
 using System;
 using System.Threading.Tasks;
 
@@ -10,16 +11,23 @@ namespace Soteria.RiskScore
     {
         private readonly WebServiceClient _maxMindClient;
         private readonly SoteriaContext _soteriaContext;
+        private readonly IHaveIBeenPwnedService _haveIBeenPwnedService;
 
-        public RiskCalculator(WebServiceClient maxMindClient, SoteriaContext soteriaContext)
+        public RiskCalculator(WebServiceClient maxMindClient, SoteriaContext soteriaContext, IHaveIBeenPwnedService haveIBeenPwnedService)
         {
             this._maxMindClient = maxMindClient;
             this._soteriaContext = soteriaContext;
+            this._haveIBeenPwnedService = haveIBeenPwnedService;
         }
 
         public async Task<Risk> Calculate(Action action)
         {
-            var maxMindInsights = await _maxMindClient.InsightsAsync(action.IP);
+            var haveIBeenPwnedSearch = _haveIBeenPwnedService.IsPasswordBreached(action.Password);
+            var maxMindInsightsSearch = _maxMindClient.InsightsAsync(action.IP);
+
+
+            var isPasswordBreached = await haveIBeenPwnedSearch;
+            var maxMindInsights = await maxMindInsightsSearch;
 
             _soteriaContext.LoginHistories.Add(new LoginHistory
             {
@@ -52,7 +60,7 @@ namespace Soteria.RiskScore
 
             return new Risk
             {
-                Score = 0.4f
+                Score = isPasswordBreached ? 1f : 0f
             };
         }
     }

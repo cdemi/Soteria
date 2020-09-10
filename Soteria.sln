@@ -17,7 +17,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soteria.RiskScore", "Soteria.RiskScore\Soteria.RiskScore.csproj", "{F296BDF1-EAE8-4DAB-BF08-9E8153B77B30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Soteria.RiskScore", "Soteria.RiskScore\Soteria.RiskScore.csproj", "{F296BDF1-EAE8-4DAB-BF08-9E8153B77B30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soteria.HaveIBeenPwned", "Soteria.HaveIBeenPwned\Soteria.HaveIBeenPwned.csproj", "{195A7284-2C59-46E3-8153-703159E2236A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{F296BDF1-EAE8-4DAB-BF08-9E8153B77B30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F296BDF1-EAE8-4DAB-BF08-9E8153B77B30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F296BDF1-EAE8-4DAB-BF08-9E8153B77B30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{195A7284-2C59-46E3-8153-703159E2236A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{195A7284-2C59-46E3-8153-703159E2236A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{195A7284-2C59-46E3-8153-703159E2236A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{195A7284-2C59-46E3-8153-703159E2236A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

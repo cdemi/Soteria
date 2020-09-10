@@ -11,6 +11,8 @@ using Swashbuckle.AspNetCore.Filters;
 using System.Reflection;
 using Soteria.WebAPI.Models;
 using Soteria.RiskScore;
+using Soteria.HaveIBeenPwned;
+using System;
 
 namespace Soteria.WebAPI
 {
@@ -33,6 +35,11 @@ namespace Soteria.WebAPI
             services.Configure<WebServiceClientOptions>(Configuration.GetSection("MaxMind"));
             // Configure dependency injection for WebServiceClient
             services.AddHttpClient<WebServiceClient>();
+
+            services.AddHttpClient<IHaveIBeenPwnedService, HaveIBeenPwnedService>(client =>
+            {
+                client.BaseAddress = new Uri("https://api.pwnedpasswords.com/");
+            });
 
             services.AddScoped<RiskCalculator>();
 

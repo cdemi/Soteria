@@ -15,16 +15,16 @@ namespace Soteria.WebAPI.Controllers
         }
 
         [HttpPost("/score")]
-        public async Task<IActionResult> Score([FromBody]ActionRequest actionRequest)
+        public async Task<Risk> Score([FromBody]ActionRequest actionRequest)
         {
-            await riskScoreCalculator.Calculate(new RiskScore.Action
+            var riskScore = await riskScoreCalculator.Calculate(new RiskScore.Action
             {
                 IP = actionRequest.IP,
                 Password = actionRequest.Password,
                 UserAgent = actionRequest.UserAgent,
                 Username = actionRequest.Username
             });
-            return Ok();
+            return riskScore;
         }
     }
 }
