@@ -35,7 +35,7 @@ namespace Soteria.RiskScore
             _soteriaContext.LoginHistories.Add(new LoginHistory
             {
                 City = maxMindInsights.City.Name,
-                DateTime = DateTime.Now,
+                DateTime = DateTime.UtcNow,
                 IP = action.IP,
                 UserAgent = action.UserAgent,
                 Username = action.Username,
@@ -81,6 +81,9 @@ namespace Soteria.RiskScore
 
                 if (!lastLogin.Continent.Equals(maxMindInsights.Continent.Name))
                     score += 0.4f;
+
+                var daysSinceLastLogin = (DateTime.UtcNow - lastLogin.DateTime).TotalDays;
+                score += 0.0015f * (float)daysSinceLastLogin;
             }
             else
             {
