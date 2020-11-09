@@ -13,7 +13,10 @@ namespace Soteria.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<LoginHistory>()
-                .HasIndex(p => new { p.Username, p.DateTime });
+                .HasIndex(p => new { p.Username });
+
+            modelBuilder.Entity<LoginHistory>()
+                .HasIndex(p => new { p.DateTime });
         }
     }
 }

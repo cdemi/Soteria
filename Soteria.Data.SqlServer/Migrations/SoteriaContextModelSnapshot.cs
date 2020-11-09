@@ -96,7 +96,9 @@ namespace Soteria.Data.SqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Username", "DateTime");
+                    b.HasIndex("DateTime");
+
+                    b.HasIndex("Username");
 
                     b.ToTable("LoginHistories");
                 });
