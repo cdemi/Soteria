@@ -66,7 +66,7 @@ namespace Soteria.RiskScore
             float score = 0f;
 
             if (isPasswordBreached)
-                score += 0.8f;
+                score += 0.9f;
 
             if (maxMindInsights.Traits.IsAnonymous || maxMindInsights.Traits.IsAnonymousProxy || maxMindInsights.Traits.IsAnonymousVpn || maxMindInsights.Traits.IsHostingProvider || maxMindInsights.Traits.IsPublicProxy || maxMindInsights.Traits.IsTorExitNode)
                 score += 0.7f;
@@ -74,8 +74,13 @@ namespace Soteria.RiskScore
             if (lastLogin != null)
             {
                 if (lastLogin.AutonomousSystemNumber != maxMindInsights.Traits.AutonomousSystemNumber)
-                    score += 0.4f;
+                    score += 0.1f;
 
+                if (!lastLogin.Country.Equals(maxMindInsights.Country.Name))
+                    score += 0.3f;
+
+                if (!lastLogin.Continent.Equals(maxMindInsights.Continent.Name))
+                    score += 0.4f;
             }
             else
             {
