@@ -1,8 +1,10 @@
 ﻿using MaxMind.GeoIP2;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Soteria.Data;
 using Soteria.HaveIBeenPwned;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Soteria.RiskScore
@@ -24,6 +26,7 @@ namespace Soteria.RiskScore
         {
             var haveIBeenPwnedSearch = _haveIBeenPwnedService.IsPasswordBreached(action.Password);
             var maxMindInsightsSearch = _maxMindClient.InsightsAsync(action.IP);
+            var lastLoginSearch = _soteriaContext.LoginHistories.OrderByDescending(lh=>lh.DateTime).Where(lh => lh.Username.Equals(action.Username)).FirstOrDefaultAsync();
 
 
             var isPasswordBreached = await haveIBeenPwnedSearch;
@@ -58,9 +61,34 @@ namespace Soteria.RiskScore
 
             await _soteriaContext.SaveChangesAsync();
 
+            var lastLogin = await lastLoginSearch;
+
+            float score = 0f;
+
+            if (isPasswordBreached)
+                score += 0.8f;
+
+            if (maxMindInsights.Traits.IsAnonymous || maxMindInsights.Traits.IsAnonymousProxy || maxMindInsights.Traits.IsAnonymousVpn || maxMindInsights.Traits.IsHostingProvider || maxMindInsights.Traits.IsPublicProxy || maxMindInsights.Traits.IsTorExitNode)
+                score += 0.7f;
+
+            if (lastLogin != null)
+            {
+                if (lastLogin.AutonomousSystemNumber != maxMindInsights.Traits.AutonomousSystemNumber)
+                    score += 0.4f;
+
+            }
+            else
+            {
+                score += 1f;
+            }
+
+
+            if (score > 1f)
+                score = 1f;
+
             return new Risk
             {
-                Score = isPasswordBreached ? 1f : 0f
+                Score = score
             };
         }
     }
