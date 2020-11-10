@@ -57,7 +57,9 @@ namespace Soteria.RiskScore
                 StaticIPScore = maxMindInsights.Traits.StaticIPScore,
                 UserType = maxMindInsights.Traits.UserType,
                 Continent = maxMindInsights.Continent.Name,
-                Country = maxMindInsights.Country.Name
+                Country = maxMindInsights.Country.Name,
+                Latitude = maxMindInsights.Location.Latitude,
+                Longitude = maxMindInsights.Location.Longitude
             });
 
             await _soteriaContext.SaveChangesAsync();
