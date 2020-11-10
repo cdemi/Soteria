@@ -79,6 +79,12 @@ namespace Soteria.Data.SqlServer.Migrations
                     b.Property<string>("Isp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<double?>("Latitude")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("Longitude")
+                        .HasColumnType("float");
+
                     b.Property<string>("Organization")
                         .HasColumnType("nvarchar(max)");
 
