@@ -91,7 +91,7 @@ namespace Soteria.RiskScore
             {
                 if (lastLogin.AutonomousSystemNumber != maxMindInsights.Traits.AutonomousSystemNumber)
                 {
-                    score += 0.1f;
+                    score += 0.2f;
                     scoreReasons.Add(Reason.DifferentAS);
                 }
 
@@ -109,6 +109,28 @@ namespace Soteria.RiskScore
 
                 var daysSinceLastLogin = (DateTime.UtcNow - lastLogin.DateTime).TotalDays;
                 score += 0.0015f * (int)daysSinceLastLogin;
+
+                if (lastLogin.Latitude.HasValue && lastLogin.Longitude.HasValue && maxMindInsights.Location.Latitude.HasValue && maxMindInsights.Location.Longitude.HasValue)
+                {
+                    var lastLoginLocation = new Location(lastLogin.Latitude.Value, lastLogin.Longitude.Value);
+                    var currentLoginLocation = new Location(maxMindInsights.Location.Latitude.Value, maxMindInsights.Location.Longitude.Value);
+
+                    var distanceBetweenLocations = lastLoginLocation.DistanceFrom(currentLoginLocation);
+
+                    if (distanceBetweenLocations > 100000)
+                    {
+                        var secondsBetweenLogins = (DateTime.UtcNow - lastLogin.DateTime).TotalSeconds;
+
+                        var averageSpeed = distanceBetweenLocations / secondsBetweenLogins;
+                        const double maximumAllowedSpeed = 278;
+
+                        if (averageSpeed > maximumAllowedSpeed)
+                        {
+                            score += 0.7f;
+                            scoreReasons.Add(Reason.ImpossibleTravel);
+                        }
+                    }
+                }
             }
             else
             {
