@@ -1,4 +1,5 @@
-﻿using MaxMind.GeoIP2;
+﻿using GeoCoordinatePortable;
+using MaxMind.GeoIP2;
 using Microsoft.EntityFrameworkCore;
 using Soteria.Data;
 using Soteria.HaveIBeenPwned;
@@ -111,17 +112,17 @@ namespace Soteria.RiskScore
 
                 if (lastLogin.Latitude.HasValue && lastLogin.Longitude.HasValue && maxMindInsights.Location.Latitude.HasValue && maxMindInsights.Location.Longitude.HasValue)
                 {
-                    var lastLoginLocation = new Location(lastLogin.Latitude.Value, lastLogin.Longitude.Value);
-                    var currentLoginLocation = new Location(maxMindInsights.Location.Latitude.Value, maxMindInsights.Location.Longitude.Value);
+                    var lastLoginLocation = new GeoCoordinate(lastLogin.Latitude.Value, lastLogin.Longitude.Value);
+                    var currentLoginLocation = new GeoCoordinate(maxMindInsights.Location.Latitude.Value, maxMindInsights.Location.Longitude.Value);
 
-                    var distanceBetweenLocations = lastLoginLocation.DistanceFrom(currentLoginLocation);
+                    var distanceBetweenLocations = lastLoginLocation.GetDistanceTo(currentLoginLocation);
 
                     if (distanceBetweenLocations > 100000)
                     {
                         var secondsBetweenLogins = (DateTime.UtcNow - lastLogin.DateTime).TotalSeconds;
 
                         var averageSpeed = distanceBetweenLocations / secondsBetweenLogins;
-                        const double maximumAllowedSpeed = 278;
+                        const double maximumAllowedSpeed = 278; // Travel of over 278 meters per second is considered impossible
 
                         if (averageSpeed > maximumAllowedSpeed)
                         {
