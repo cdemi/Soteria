@@ -1,6 +1,5 @@
 ﻿using MaxMind.GeoIP2;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using Soteria.Data;
 using Soteria.HaveIBeenPwned;
 using System;
