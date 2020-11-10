@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Soteria.Data;
 using Soteria.HaveIBeenPwned;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -64,26 +65,48 @@ namespace Soteria.RiskScore
             var lastLogin = await lastLoginSearch;
 
             float score = 0f;
+            List<string> scoreReasons = new List<string>();
 
             if (isPasswordBreached)
+            {
                 score += 0.9f;
+                scoreReasons.Add(Reason.PasswordBreached);
+            }
 
-            if (maxMindInsights.Traits.IsAnonymous || maxMindInsights.Traits.IsAnonymousProxy || maxMindInsights.Traits.IsAnonymousVpn || maxMindInsights.Traits.IsHostingProvider || maxMindInsights.Traits.IsPublicProxy || maxMindInsights.Traits.IsTorExitNode)
+            if (maxMindInsights.Traits.IsAnonymous || maxMindInsights.Traits.IsAnonymousProxy || maxMindInsights.Traits.IsAnonymousVpn || maxMindInsights.Traits.IsPublicProxy || maxMindInsights.Traits.IsTorExitNode)
+            {
                 score += 0.7f;
+                scoreReasons.Add(Reason.IpAnonymizer);
+            }
+
+            if (maxMindInsights.Traits.IsHostingProvider)
+            {
+                score += 0.8f;
+                scoreReasons.Add(Reason.HostingProvider);
+            }
 
             if (lastLogin != null)
             {
                 if (lastLogin.AutonomousSystemNumber != maxMindInsights.Traits.AutonomousSystemNumber)
+                {
                     score += 0.1f;
+                    scoreReasons.Add(Reason.DifferentAS);
+                }
 
                 if (!lastLogin.Country.Equals(maxMindInsights.Country.Name))
+                {
                     score += 0.3f;
+                    scoreReasons.Add(Reason.DifferentCountry);
+                }
 
                 if (!lastLogin.Continent.Equals(maxMindInsights.Continent.Name))
+                {
                     score += 0.4f;
+                    scoreReasons.Add(Reason.DifferentContinent);
+                }
 
                 var daysSinceLastLogin = (DateTime.UtcNow - lastLogin.DateTime).TotalDays;
-                score += 0.0015f * (float)daysSinceLastLogin;
+                score += 0.0015f * (int)daysSinceLastLogin;
             }
             else
             {
@@ -96,7 +119,8 @@ namespace Soteria.RiskScore
 
             return new Risk
             {
-                Score = score
+                Score = score,
+                Reasons = scoreReasons
             };
         }
     }
