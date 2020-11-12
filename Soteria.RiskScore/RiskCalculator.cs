@@ -30,7 +30,6 @@ namespace Soteria.RiskScore
             var lastLoginSearch = _soteriaContext.LoginHistories.OrderByDescending(lh=>lh.DateTime).Where(lh => lh.Username.Equals(action.Username)).FirstOrDefaultAsync();
 
 
-            var isPasswordBreached = await haveIBeenPwnedSearch;
             var maxMindInsights = await maxMindInsightsSearch;
 
             _soteriaContext.LoginHistories.Add(new LoginHistory
@@ -65,6 +64,7 @@ namespace Soteria.RiskScore
             await _soteriaContext.SaveChangesAsync();
 
             var lastLogin = await lastLoginSearch;
+            var isPasswordBreached = await haveIBeenPwnedSearch;
 
             float score = 0f;
             List<string> scoreReasons = new List<string>();
