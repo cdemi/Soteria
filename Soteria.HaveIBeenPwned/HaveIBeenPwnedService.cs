@@ -16,7 +16,7 @@ namespace Soteria.HaveIBeenPwned
             this.httpClient = httpClient;
         }
 
-        public async Task<bool> IsPasswordBreached(string password)
+        public async Task<bool> IsPasswordBreachedAsync(string password)
         {
             var passwordHash = hash(password);
             var httpResponse = await httpClient.GetAsync($"/range/{passwordHash.Substring(0,5)}");

@@ -4,6 +4,6 @@ namespace Soteria.HaveIBeenPwned
 {
     public interface IHaveIBeenPwnedService
     {
-        Task<bool> IsPasswordBreached(string password);
+        Task<bool> IsPasswordBreachedAsync(string password);
     }
 }

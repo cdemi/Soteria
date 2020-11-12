@@ -25,7 +25,7 @@ namespace Soteria.RiskScore
 
         public async Task<Risk> Calculate(Action action)
         {
-            var haveIBeenPwnedSearch = _haveIBeenPwnedService.IsPasswordBreached(action.Password);
+            var haveIBeenPwnedSearch = _haveIBeenPwnedService.IsPasswordBreachedAsync(action.Password);
             var maxMindInsightsSearch = _maxMindClient.InsightsAsync(action.IP);
             var lastLoginSearch = _soteriaContext.LoginHistories.OrderByDescending(lh=>lh.DateTime).Where(lh => lh.Username.Equals(action.Username)).FirstOrDefaultAsync();
 
