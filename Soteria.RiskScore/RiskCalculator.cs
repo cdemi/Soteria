@@ -27,7 +27,7 @@ namespace Soteria.RiskScore
         {
             var haveIBeenPwnedSearch = _haveIBeenPwnedService.IsPasswordBreachedAsync(action.Password);
             var maxMindInsightsSearch = _maxMindClient.InsightsAsync(action.IP);
-            var lastLoginSearch = _soteriaContext.LoginHistories.OrderByDescending(lh=>lh.DateTime).Where(lh => lh.Username.Equals(action.Username)).FirstOrDefaultAsync();
+            var lastLoginSearch = _soteriaContext.LoginHistories.OrderByDescending(lh => lh.DateTime).Where(lh => lh.Username.Equals(action.Username)).FirstOrDefaultAsync();
 
 
             var maxMindInsights = await maxMindInsightsSearch;
@@ -135,6 +135,7 @@ namespace Soteria.RiskScore
             else
             {
                 score += 1f;
+                scoreReasons.Add(Reason.NoHistoricalData);
             }
 
 

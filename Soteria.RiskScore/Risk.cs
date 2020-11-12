@@ -12,7 +12,7 @@ namespace Soteria.RiskScore
         public const string DifferentCountry = "DIFFERENT_COUNTRY";
         public const string DifferentContinent = "DIFFERENT_CONTINENT";
         public const string HostingProvider = "HOSTING_PROVIDER";
-
+        public const string NoHistoricalData = "NO_HISTORICAL_DATA";
         public const string ImpossibleTravel = "IMPOSSIBLE_TRAVEL";
     }
     public class Risk
