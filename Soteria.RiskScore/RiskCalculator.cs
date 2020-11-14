@@ -61,9 +61,9 @@ namespace Soteria.RiskScore
                 Longitude = maxMindInsights.Location.Longitude
             });
 
+            var lastLogin = await lastLoginSearch;
             await _soteriaContext.SaveChangesAsync();
 
-            var lastLogin = await lastLoginSearch;
             var isPasswordBreached = await haveIBeenPwnedSearch;
 
             float score = 0f;
